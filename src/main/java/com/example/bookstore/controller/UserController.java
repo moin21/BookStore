@@ -1,0 +1,38 @@
+package com.example.bookstore.controller;
+
+import com.example.bookstore.dto.BookDTO;
+import com.example.bookstore.dto.ResponseDTO;
+import com.example.bookstore.dto.UserDTO;
+import com.example.bookstore.service.IBookService;
+import com.example.bookstore.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RequestMapping("/user")
+@RestController
+public class UserController {
+    @Autowired
+    IUserService iUserService;
+
+
+    @PostMapping("/post")
+    public ResponseEntity<ResponseDTO> addUser(@RequestBody UserDTO userDTO) {
+        ResponseDTO responseDTO = new ResponseDTO("User Added Successfully", iUserService.addUser(userDTO));
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ResponseDTO> getById(@PathVariable int id) {
+        ResponseDTO responseDTO = new ResponseDTO("User Retrieved Successfully", iUserService.getUserById(id));
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<ResponseDTO> getById() {
+        ResponseDTO responseDTO = new ResponseDTO("User List Retrieved Successfully", iUserService.getBookList());
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+}
+
