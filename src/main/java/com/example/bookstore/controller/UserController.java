@@ -1,9 +1,8 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.dto.BookDTO;
+import com.example.bookstore.dto.LoginDTO;
 import com.example.bookstore.dto.ResponseDTO;
 import com.example.bookstore.dto.UserDTO;
-import com.example.bookstore.service.IBookService;
 import com.example.bookstore.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +31,12 @@ public class UserController {
     @GetMapping("/get-all")
     public ResponseEntity<ResponseDTO> getById() {
         ResponseDTO responseDTO = new ResponseDTO("User List Retrieved Successfully", iUserService.getBookList());
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<ResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
+        ResponseDTO responseDTO = new ResponseDTO("User Retrieved Successfully", iUserService.loginUser(loginDTO));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }

@@ -1,32 +1,40 @@
 package com.example.bookstore.entity;
 
-import com.example.bookstore.dto.CartDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name = "Cart")
 @Data
 public class Cart {
-    @ManyToOne(optional = true)
-    Book book;
-    @OneToOne
-    User user;
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    public Cart(CartDTO cartDTO) {
-        this.book = cartDTO.book;
-        this.user = cartDTO.user;
-    }
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Cart(CartDTO cartDTO, int id) {
-        this.book = getBook();
-        this.user = getUser();
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    private int quantity;
+
+
+    public Cart(User user, Book book, int quantity) {
+        this.user = user;
+        this.book = book;
+        this.quantity = quantity;
     }
 
     public Cart() {
 
     }
 }
+

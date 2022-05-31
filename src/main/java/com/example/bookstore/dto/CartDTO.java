@@ -1,20 +1,13 @@
 package com.example.bookstore.dto;
 
-import com.example.bookstore.entity.Book;
-import com.example.bookstore.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.OneToOne;
+import org.springframework.stereotype.Component;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Component
 public class CartDTO {
-    public Book book;
-    @OneToOne(mappedBy = "cart")
-    public
-    User user;
+    public int userId;
+    public int bookId;
+    public int quantity;
 }
 

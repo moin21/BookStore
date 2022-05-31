@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Data
@@ -16,8 +14,8 @@ import java.util.Optional;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private int id;
+    @Column(name = "book_id", nullable = false)
+    private int bookID;
     private String name;
     private String author;
     private float price;
@@ -26,8 +24,7 @@ public class Book {
     private String coverImage;
     @JsonDeserialize
     private int quantity;
-@OneToMany
-List<Cart> cart;
+
     public Book(BookDTO bookDTO) {
         this.name = bookDTO.getName();
         this.author = bookDTO.getAuthor();
@@ -38,7 +35,7 @@ List<Cart> cart;
     }
 
     public Book(int id, BookDTO bookDTO) {
-        this.id = id;
+        this.bookID = id;
         this.name = bookDTO.getName();
         this.author = bookDTO.getAuthor();
         this.price = bookDTO.getPrice();
@@ -48,7 +45,7 @@ List<Cart> cart;
     }
 
     public Book(Book book) {
-        this.id = id;
+        this.bookID = book.bookID;
         this.name = book.getName();
         this.author = book.getAuthor();
         this.price = book.getPrice();
