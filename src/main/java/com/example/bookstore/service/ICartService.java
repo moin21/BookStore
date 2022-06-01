@@ -12,8 +12,7 @@ public interface ICartService {
 
     public Cart addToCart(CartDTO cartDTO);
 
-    void deleteFromCart(int cartId);
-
-    void deleteAll();
+    public String deleteFromCart(int id);
+    public Cart getById(int id);
 
 }

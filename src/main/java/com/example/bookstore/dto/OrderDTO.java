@@ -17,5 +17,4 @@ public class OrderDTO {
     public int bookId;
 
     public LocalDate orderDate = LocalDate.now();
-
 }

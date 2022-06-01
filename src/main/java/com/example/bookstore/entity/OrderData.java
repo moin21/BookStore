@@ -1,7 +1,6 @@
 package com.example.bookstore.entity;
 
 
-import com.example.bookstore.dto.OrderDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,11 +34,25 @@ public class OrderData {
     public String address;
     public LocalDate orderDate = LocalDate.now();
 
-    public OrderData(UserData userData, Book book, String address) {
+    public boolean isActive = true;
+
+    public float totalPrice;
+
+    public OrderData(UserData userData, Book book, String address, float totalPrice) {
         this.userData = userData;
         this.book = book;
         this.address = address;
         this.orderDate = getOrderDate();
+        this.isActive = isActive();
+        this.totalPrice = totalPrice;
+    }
+    public OrderData(UserData userData, Book book, String address, boolean isActive) {
+        this.userData = userData;
+        this.book = book;
+        this.address = address;
+        this.orderDate = getOrderDate();
+        this.isActive = isActive;
+        this.totalPrice = getTotalPrice();
     }
 }
 
