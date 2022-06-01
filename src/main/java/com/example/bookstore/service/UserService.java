@@ -35,7 +35,7 @@ public class UserService implements IUserService {
 
 
     public UserData getUserById(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new CustomException("UserData  with id " + id + " does not exist in database..!"));
+        return userRepository.findById(id).orElseThrow(() -> new CustomException("User  with id " + id + " does not exist in database..!"));
 
     }
 
