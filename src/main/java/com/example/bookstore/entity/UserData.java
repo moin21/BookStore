@@ -2,15 +2,16 @@ package com.example.bookstore.entity;
 
 import com.example.bookstore.dto.LoginDTO;
 import com.example.bookstore.dto.UserDTO;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
-public class User {
+public class UserData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id", nullable = false)
@@ -24,7 +25,7 @@ public class User {
     private String password;
 
 
-    public User(int id, UserDTO userDTO) {
+    public UserData(int id, UserDTO userDTO) {
         this.userID = id;
         this.firstName = userDTO.getFirstName();
         this.lastName = userDTO.getLastName();
@@ -34,17 +35,17 @@ public class User {
         this.password = userDTO.getPassword();
     }
 
-    public User(User user) {
-        this.userID = user.getUserID();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.email = user.getEmail();
-        this.address = user.getAddress();
-        this.loginID = user.getLoginID();
-        this.password = user.getPassword();
+    public UserData(UserData userData) {
+        this.userID = userData.getUserID();
+        this.firstName = userData.getFirstName();
+        this.lastName = userData.getLastName();
+        this.email = userData.getEmail();
+        this.address = userData.getAddress();
+        this.loginID = userData.getLoginID();
+        this.password = userData.getPassword();
     }
 
-    public User(UserDTO userDTO) {
+    public UserData(UserDTO userDTO) {
         this.firstName = userDTO.getFirstName();
         this.lastName = userDTO.getLastName();
         this.email = userDTO.getEmail();
@@ -53,7 +54,7 @@ public class User {
         this.password = userDTO.getPassword();
     }
 
-    public User(LoginDTO loginDTO) {
+    public UserData(LoginDTO loginDTO) {
         this.loginID = loginDTO.getLoginID();
         this.password = loginDTO.getPassword();
     }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "Cart")
@@ -17,7 +16,7 @@ public class Cart {
     @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserData userData;
 
     @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,8 +26,8 @@ public class Cart {
     private int quantity;
 
 
-    public Cart(User user, Book book, int quantity) {
-        this.user = user;
+    public Cart(UserData userData, Book book, int quantity) {
+        this.userData = userData;
         this.book = book;
         this.quantity = quantity;
     }

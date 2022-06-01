@@ -2,7 +2,7 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.dto.LoginDTO;
 import com.example.bookstore.dto.UserDTO;
-import com.example.bookstore.entity.User;
+import com.example.bookstore.entity.UserData;
 import com.example.bookstore.exception.CustomException;
 import com.example.bookstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +16,14 @@ public class UserService implements IUserService {
     @Autowired
     UserRepository userRepository;
 
-    public User addUser(UserDTO userDTO) {
+    public UserData addUser(UserDTO userDTO) {
 
-        User user = new User(userDTO);
-        return userRepository.save(user);
+        UserData userData = new UserData(userDTO);
+        return userRepository.save(userData);
     }
 
     public String loginUser(LoginDTO loginDTO) {
-        Optional<User> existing = userRepository.findByLoginId(loginDTO.getLoginID());
+        Optional<UserData> existing = userRepository.findByLoginId(loginDTO.getLoginID());
         if (existing.isPresent()) {
             if (existing.get().getPassword().equals(loginDTO.getPassword())) {
                 System.out.println("Login Successful");
@@ -34,12 +34,12 @@ public class UserService implements IUserService {
     }
 
 
-    public User getUserById(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new CustomException("User  with id " + id + " does not exist in database..!"));
+    public UserData getUserById(int id) {
+        return userRepository.findById(id).orElseThrow(() -> new CustomException("UserData  with id " + id + " does not exist in database..!"));
 
     }
 
-    public List<User> getBookList() {
+    public List<UserData> getBookList() {
         if (userRepository.findAll().isEmpty()) {
             throw new CustomException("No Users in the list.");
         } else return userRepository.findAll();

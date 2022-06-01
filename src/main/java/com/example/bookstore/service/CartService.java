@@ -3,16 +3,11 @@ package com.example.bookstore.service;
 import com.example.bookstore.dto.CartDTO;
 import com.example.bookstore.entity.Book;
 import com.example.bookstore.entity.Cart;
-import com.example.bookstore.entity.User;
+import com.example.bookstore.entity.UserData;
 import com.example.bookstore.repository.CartRepository;
 import com.example.bookstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 @Service
 public class CartService implements ICartService {
@@ -31,10 +26,10 @@ public class CartService implements ICartService {
 
 
     public Cart addToCart(CartDTO cartDTO) {
-        User user = iUserService.getUserById(cartDTO.getUserId());
+        UserData userData = iUserService.getUserById(cartDTO.getUserId());
         Book book = iBookService.getById(cartDTO.getBookId());
 
-        Cart cart = new Cart(user , book, cartDTO.quantity);
+        Cart cart = new Cart(userData, book, cartDTO.quantity);
         return cartRepository.save(cart);
     }
 

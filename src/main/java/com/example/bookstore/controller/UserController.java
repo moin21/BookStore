@@ -18,25 +18,25 @@ public class UserController {
 
     @PostMapping("/post")
     public ResponseEntity<ResponseDTO> addUser(@RequestBody UserDTO userDTO) {
-        ResponseDTO responseDTO = new ResponseDTO("User Added Successfully", iUserService.addUser(userDTO));
+        ResponseDTO responseDTO = new ResponseDTO("UserData Added Successfully", iUserService.addUser(userDTO));
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseDTO> getById(@PathVariable int id) {
-        ResponseDTO responseDTO = new ResponseDTO("User Retrieved Successfully", iUserService.getUserById(id));
+        ResponseDTO responseDTO = new ResponseDTO("UserData Retrieved Successfully", iUserService.getUserById(id));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @GetMapping("/get-all")
     public ResponseEntity<ResponseDTO> getById() {
-        ResponseDTO responseDTO = new ResponseDTO("User List Retrieved Successfully", iUserService.getBookList());
+        ResponseDTO responseDTO = new ResponseDTO("UserData List Retrieved Successfully", iUserService.getBookList());
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @GetMapping("/login")
     public ResponseEntity<ResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
-        ResponseDTO responseDTO = new ResponseDTO("User Retrieved Successfully", iUserService.loginUser(loginDTO));
+        ResponseDTO responseDTO = new ResponseDTO("UserData Retrieved Successfully", iUserService.loginUser(loginDTO));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
