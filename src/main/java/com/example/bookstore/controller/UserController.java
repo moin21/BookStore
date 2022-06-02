@@ -23,8 +23,8 @@ public class UserController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<ResponseDTO> getById(@PathVariable int id) {
-        ResponseDTO responseDTO = new ResponseDTO("UserData Retrieved Successfully", iUserService.getUserById(id));
+    public ResponseEntity<ResponseDTO> getById(@PathVariable String token) {
+        ResponseDTO responseDTO = new ResponseDTO("UserData Retrieved Successfully", iUserService.getUserById(token));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 

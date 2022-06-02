@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class OrderDTO {
     public String address;
 
     public int userId;
-    public int bookId;
-
+    public List<Integer> bookId;
+    public List<Integer> quantity;
     public LocalDate orderDate = LocalDate.now();
 }

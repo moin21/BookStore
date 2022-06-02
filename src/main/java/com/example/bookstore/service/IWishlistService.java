@@ -5,4 +5,5 @@ import com.example.bookstore.entity.Wishlist;
 
 public interface IWishlistService {
     public Wishlist addWishlist(WishlistDTO wishlistDTO);
+    public Wishlist getById(int id);
 }

@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,10 +22,13 @@ public class OrderData {
     @GeneratedValue
     public int orderId;
 
-    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    public Book book;
+    @ElementCollection
+    @CollectionTable(name = "books",joinColumns = @JoinColumn(name = "order_id"))
+    public List<Integer> book;
+
+    @ElementCollection
+    @CollectionTable(name = "book_quantities",joinColumns = @JoinColumn(name = "order_id"))
+    public List<Integer> quantity;
 
     @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @OneToOne(fetch = FetchType.LAZY)
@@ -36,23 +40,20 @@ public class OrderData {
 
     public boolean isActive = true;
 
-    public float totalPrice;
 
-    public OrderData(UserData userData, Book book, String address, float totalPrice) {
+    public OrderData(UserData userData, List<Integer> book, List<Integer> quantity, String address) {
         this.userData = userData;
         this.book = book;
         this.address = address;
         this.orderDate = getOrderDate();
         this.isActive = isActive();
-        this.totalPrice = totalPrice;
     }
-    public OrderData(UserData userData, Book book, String address, boolean isActive) {
+    public OrderData(UserData userData, List<Integer> book, List<Integer> quantity, String address, boolean isActive) {
         this.userData = userData;
         this.book = book;
         this.address = address;
         this.orderDate = getOrderDate();
         this.isActive = isActive;
-        this.totalPrice = getTotalPrice();
     }
 }
 

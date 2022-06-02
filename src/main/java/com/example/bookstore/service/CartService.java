@@ -7,6 +7,7 @@ import com.example.bookstore.entity.UserData;
 import com.example.bookstore.exception.CustomException;
 import com.example.bookstore.repository.CartRepository;
 import com.example.bookstore.repository.UserRepository;
+import com.example.bookstore.util.TokenUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +28,10 @@ public class CartService implements ICartService {
     @Autowired
     UserRepository userRepository;
 
-
+    @Autowired
+    TokenUtility tokenUtility;
     public Cart addToCart(CartDTO cartDTO) {
-        UserData userData = iUserService.getUserById(cartDTO.getUserId());
+        UserData userData = iUserService.getUserById(tokenUtility.createToken(cartDTO.getUserId()));
         Book book = iBookService.getById(cartDTO.getBookId());
         if (cartDTO.getQuantity() <= book.getQuantity()) {
             Cart cart = new Cart(userData, book, cartDTO.getQuantity());

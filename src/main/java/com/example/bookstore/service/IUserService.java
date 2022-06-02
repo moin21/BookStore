@@ -7,11 +7,11 @@ import com.example.bookstore.entity.UserData;
 import java.util.List;
 
 public interface IUserService {
-    public String loginUser(LoginDTO loginDTO);
+    String loginUser(LoginDTO loginDTO);
 
-    UserData getUserById(int id);
+    UserData getUserById(String token);
 
     List<UserData> getBookList();
 
-    Object addUser(UserDTO userDTO);
+    public String addUser(UserDTO userDTO);
 }
