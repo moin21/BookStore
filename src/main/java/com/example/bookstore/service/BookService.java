@@ -1,9 +1,12 @@
 package com.example.bookstore.service;
 
 import com.example.bookstore.dto.BookDTO;
+import com.example.bookstore.email.EmailService;
 import com.example.bookstore.entity.Book;
+import com.example.bookstore.entity.UserData;
 import com.example.bookstore.exception.CustomException;
 import com.example.bookstore.repository.BookRepository;
+import com.example.bookstore.util.TokenUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,20 @@ import java.util.stream.Collectors;
 public class BookService implements IBookService {
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    TokenUtility tokenUtility;
+    @Autowired
+    IUserService iUserService;
+    @Autowired
+    EmailService emailService;
 
-    public Book addBook(BookDTO bookDTO) {
+    public Book addBook(String token, BookDTO bookDTO) {
         Book book = new Book(bookDTO);
-        return bookRepository.save(book);
+        UserData userData = iUserService.getUserById((token));
+        if (userData != null) {
+            emailService.sendEmail(userData.getEmail(), "Book Created successfully!!", "User " + userData.getFirstName() + " has added new book successfully " + book + ".");
+            return bookRepository.save(book);
+        } else throw new CustomException("Please pass valid user token to add book");
     }
 
     public Book getById(int id) {
@@ -39,9 +52,11 @@ public class BookService implements IBookService {
         } else throw new CustomException("No book matches with the given ID");
     }
 
-    public Book updateById(int id, BookDTO bookDTO) {
-        if (bookRepository.findById(id).isPresent()) {
+    public Book updateById(int id, BookDTO bookDTO, String token) {
+        UserData userData = iUserService.getUserById((token));
+        if (bookRepository.findById(id).isPresent() && userData != null) {
             Book book = new Book(id, bookDTO);
+            emailService.sendEmail(userData.getEmail(), "Book Updated successfully!!", "User " + userData.getFirstName() + " has updated book successfully " + book + ".");
             return bookRepository.save(book);
         } else throw new CustomException("No book matches with the given ID");
     }
@@ -72,21 +87,26 @@ public class BookService implements IBookService {
 
         } else throw new CustomException("No Books in the bookshelf.");
     }
- public  List<Book> sortBookList(String field){
-     List<Book> sortedList;
-     if (field.equals("name")) {
-         sortedList = sortByName();
-     } else if (field.equals("price")) {
-         sortedList = sortByPrice();
-     } else {
-         sortedList = getBookList();
-     }
-     return sortedList;
 
- }
-    public Book updateQuantityById(int id, int quantity) throws CustomException {
-        Book book = this.getById(id);
-        book.setQuantity(quantity);
-        return bookRepository.save(book);
+    public List<Book> sortBookList(String field) {
+        List<Book> sortedList;
+        if (field.equals("name")) {
+            sortedList = sortByName();
+        } else if (field.equals("price")) {
+            sortedList = sortByPrice();
+        } else {
+            sortedList = getBookList();
+        }
+        return sortedList;
+
+    }
+
+    public Book updateQuantityById(int id, int quantity, String token) throws CustomException {
+        UserData userData = iUserService.getUserById((token));
+        if (bookRepository.findById(id).isPresent() && userData != null) {
+            Book book = this.getById(id);
+            book.setQuantity(quantity);
+            return bookRepository.save(book);
+        } else throw new CustomException("No book found with the given id");
     }
 }

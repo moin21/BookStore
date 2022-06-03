@@ -6,7 +6,7 @@ import com.example.bookstore.entity.Book;
 import java.util.List;
 
 public interface IBookService {
-    Book addBook(BookDTO bookDTO);
+    public Book addBook(String token, BookDTO bookDTO);
 
     Book getById(int id);
 
@@ -14,7 +14,7 @@ public interface IBookService {
 
     String deleteById(int id);
 
-    Book updateById(int id, BookDTO bookDTO);
+    public Book updateById(int id, BookDTO bookDTO, String token);
 
     List<Book> findBookByName(String bName);
 
@@ -22,7 +22,7 @@ public interface IBookService {
 
     List<Book> sortByPrice();
 
-    Book updateQuantityById(int id, int quantity);
+    Book updateQuantityById(int id, int quantity, String token);
 
     List<Book> sortBookList(String field);
 

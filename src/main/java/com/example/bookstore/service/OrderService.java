@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService implements IOrderService {
@@ -26,8 +25,9 @@ public class OrderService implements IOrderService {
     IBookService iBookService;
     @Autowired
     EmailService emailService;
-@Autowired
+    @Autowired
     TokenUtility tokenUtility;
+
     public OrderData addOrder(OrderDTO orderDTO) {
         ArrayList<Book> bookList = new ArrayList<>();
         UserData userData = iUserService.getUserById(tokenUtility.createToken(orderDTO.getUserId()));
@@ -39,9 +39,9 @@ public class OrderService implements IOrderService {
             totalPrice += iBookService.getById(bookIdList.get(i)).getPrice() * (quantities.get(i));
         }
 
-        List<String> nameList = bookList.stream().map(Book::getName).collect(Collectors.toList());
+        List<String> nameList = bookList.stream().map(Book::getName).toList();
         OrderData order = new OrderData(userData, orderDTO.getBookId(), orderDTO.getQuantity(), orderDTO.address);
-        emailService.sendEmail(userData.getEmail(), "Order Created Successfully on " , "Order placed on" + orderDTO.getOrderDate()+ " for books" + nameList + ". Total price is " + totalPrice);
+        emailService.sendEmail(userData.getEmail(), "Order Created Successfully on ", "Order placed on" + orderDTO.getOrderDate() + " for books" + nameList + ". Total price is " + totalPrice);
         return orderRepository.save(order);
     }
 

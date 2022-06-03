@@ -14,9 +14,9 @@ public class BookController {
     @Autowired
     IBookService iBookService;
 
-    @PostMapping("/post")
-    public ResponseEntity<ResponseDTO> addBook(@RequestBody BookDTO bookDTO) {
-        ResponseDTO responseDTO = new ResponseDTO("Book Added Successfully", iBookService.addBook(bookDTO));
+    @PostMapping("/post/")
+    public ResponseEntity<ResponseDTO> addBook(@RequestBody BookDTO bookDTO, @RequestParam String token) {
+        ResponseDTO responseDTO = new ResponseDTO("Book Added Successfully", iBookService.addBook(token, bookDTO));
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
@@ -39,8 +39,8 @@ public class BookController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDTO> updateById(@PathVariable int id, @RequestBody BookDTO bookDTO) {
-        ResponseDTO responseDTO = new ResponseDTO("Book Updated Successfully", iBookService.updateById(id, bookDTO));
+    public ResponseEntity<ResponseDTO> updateById(@PathVariable int id, @RequestBody BookDTO bookDTO, @RequestParam String token) {
+        ResponseDTO responseDTO = new ResponseDTO("Book Updated Successfully", iBookService.updateById(id, bookDTO, token));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
@@ -58,8 +58,8 @@ public class BookController {
     }
 
     @PutMapping("/updateQuantity/{id}/{quantity}")
-    public ResponseEntity<ResponseDTO> updateQuantityById(@PathVariable int id, @PathVariable int quantity) {
-        ResponseDTO responseDTO = new ResponseDTO("Book Quantity Updated Successfully", iBookService.updateQuantityById(id, quantity));
+    public ResponseEntity<ResponseDTO> updateQuantityById(@PathVariable int id, @PathVariable int quantity, @RequestParam String token) {
+        ResponseDTO responseDTO = new ResponseDTO("Book Quantity Updated Successfully", iBookService.updateQuantityById(id, quantity, token));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
