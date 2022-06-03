@@ -43,7 +43,8 @@ public class OrderService implements IOrderService {
                 bookList.add(iBookService.getById(bookIdList.get(i)));
                 totalPrice += iBookService.getById(bookIdList.get(i)).getPrice() * (quantities.get(i));
                 iBookService.updateQuantityById(bookIdList.get(i), iBookService.getById(bookIdList.get(i)).getQuantity() - (quantities.get(i)), token);
-            } else throw new CustomException("Please select a small quantity to order as stocks are limited");
+            } else
+                throw new CustomException("Please select a small quantity to order as stocks are limited: Current stock for book id: " + bookIdList.get(i) + " is " + iBookService.getById(bookIdList.get(i)).getQuantity() + ".");
         }
         List<String> nameList = bookList.stream().map(Book::getName).toList();
         OrderData order = new OrderData(userData, orderDTO.getBookId(), orderDTO.getQuantity(), orderDTO.address);
