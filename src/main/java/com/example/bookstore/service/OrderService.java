@@ -6,6 +6,7 @@ import com.example.bookstore.entity.Book;
 import com.example.bookstore.entity.OrderData;
 import com.example.bookstore.entity.UserData;
 import com.example.bookstore.exception.CustomException;
+import com.example.bookstore.repository.BookRepository;
 import com.example.bookstore.repository.OrderRepository;
 import com.example.bookstore.util.TokenUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +28,26 @@ public class OrderService implements IOrderService {
     EmailService emailService;
     @Autowired
     TokenUtility tokenUtility;
+    @Autowired
+    BookRepository bookRepository;
 
-    public OrderData addOrder(OrderDTO orderDTO) {
+    public OrderData addOrder(String token, OrderDTO orderDTO) {
+
         ArrayList<Book> bookList = new ArrayList<>();
-        UserData userData = iUserService.getUserById(tokenUtility.createToken(orderDTO.getUserId()));
+        UserData userData = iUserService.getUserById(token);
         List<Integer> bookIdList = orderDTO.bookId;
         List<Integer> quantities = orderDTO.quantity;
         float totalPrice = 0;
         for (int i = 0; i < bookIdList.size(); i++) {
-            bookList.add(iBookService.getById(bookIdList.get(i)));
-            totalPrice += iBookService.getById(bookIdList.get(i)).getPrice() * (quantities.get(i));
+            if (quantities.get(i) <= iBookService.getById(bookIdList.get(i)).getQuantity()) {
+                bookList.add(iBookService.getById(bookIdList.get(i)));
+                totalPrice += iBookService.getById(bookIdList.get(i)).getPrice() * (quantities.get(i));
+                iBookService.updateQuantityById(bookIdList.get(i), iBookService.getById(bookIdList.get(i)).getQuantity() - (quantities.get(i)), token);
+            } else throw new CustomException("Please select a small quantity to order as stocks are limited");
         }
-
         List<String> nameList = bookList.stream().map(Book::getName).toList();
         OrderData order = new OrderData(userData, orderDTO.getBookId(), orderDTO.getQuantity(), orderDTO.address);
+
         emailService.sendEmail(userData.getEmail(), "Order Created Successfully on ", "Order placed on" + orderDTO.getOrderDate() + " for books" + nameList + ". Total price is " + totalPrice);
         return orderRepository.save(order);
     }
