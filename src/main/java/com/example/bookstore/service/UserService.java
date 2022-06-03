@@ -27,7 +27,7 @@ public class UserService implements IUserService {
         UserData userData = new UserData(userDTO);
         userRepository.save(userData);
         String token = tokenUtility.createToken(userData.getUserID());
-        emailService.sendEmail(userDTO.getEmail(), "Account Sign-up Successful", "Your account has been created. Your Token is " + token + " .Keep this token safe to access your account in future.");
+        emailService.sendEmail(userDTO.getEmail(), "Account Sign-up Successful", "Hello " + userData.getFirstName() + "Your account has been created. Your Token is " + token + " .Keep this token safe to access your account in future.");
         return token;
     }
 
@@ -49,10 +49,12 @@ public class UserService implements IUserService {
 
     }
 
-    public List<UserData> getBookList() {
-        if (userRepository.findAll().isEmpty()) {
-            throw new CustomException("No Users in the list.");
-        } else return userRepository.findAll();
+    public List<UserData> getUserList(String token) {
+        userRepository.findAll();
+        if (getUserById(token).isAdmin()) {
+            return userRepository.findAll();
+
+        } else throw new CustomException("No Users in the list.");
     }
 
 

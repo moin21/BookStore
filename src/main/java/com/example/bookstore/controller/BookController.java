@@ -33,8 +33,8 @@ public class BookController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseDTO> deleteById(@PathVariable int id) {
-        ResponseDTO responseDTO = new ResponseDTO("Book Deleted Successfully", iBookService.deleteById(id));
+    public ResponseEntity<ResponseDTO> deleteById(@PathVariable int id, @RequestParam String token) {
+        ResponseDTO responseDTO = new ResponseDTO("Book Deleted Successfully", iBookService.deleteById(id, token));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 

@@ -12,7 +12,7 @@ public interface IBookService {
 
     List<Book> getBookList();
 
-    String deleteById(int id);
+    String deleteById(int id, String token);
 
     public Book updateById(int id, BookDTO bookDTO, String token);
 

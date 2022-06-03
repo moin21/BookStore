@@ -14,4 +14,5 @@ public class UserDTO {
     private String address;
     private String loginID;
     private String password;
+    private boolean isAdmin = false;
 }

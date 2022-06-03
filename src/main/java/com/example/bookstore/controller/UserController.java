@@ -22,15 +22,15 @@ public class UserController {
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<ResponseDTO> getById(@PathVariable String token) {
+    @GetMapping("/get")
+    public ResponseEntity<ResponseDTO> getById(@RequestParam String token) {
         ResponseDTO responseDTO = new ResponseDTO("UserData Retrieved Successfully", iUserService.getUserById(token));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<ResponseDTO> getById() {
-        ResponseDTO responseDTO = new ResponseDTO("UserData List Retrieved Successfully", iUserService.getBookList());
+    public ResponseEntity<ResponseDTO> getUserList(@RequestParam String token) {
+        ResponseDTO responseDTO = new ResponseDTO("UserData List Retrieved Successfully", iUserService.getUserList(token));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class TokenUtility {
 
 
-    private static final String TOKEN_SECRET = "Warlock";
+    private static final String TOKEN_SECRET = "GothamKnight";
 
 
     public String createToken(int id) {
@@ -21,8 +21,7 @@ public class TokenUtility {
             //to set algorithm
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
 
-            String token = JWT.create().withClaim("user_id", id).sign(algorithm);
-            return token;
+            return JWT.create().withClaim("user_id", id).sign(algorithm);
         } catch (JWTCreationException exception) {
             exception.printStackTrace();
             //log Token Signing Failed
@@ -35,8 +34,6 @@ public class TokenUtility {
 
 
     /**
-     * @param token
-     * @return
      */
     public int decodeToken(String token) {
         int userid;
@@ -48,6 +45,7 @@ public class TokenUtility {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        assert verification != null;
         JWTVerifier jwtverifier = verification.build();
         //to decode token
         DecodedJWT decodedjwt = jwtverifier.verify(token);

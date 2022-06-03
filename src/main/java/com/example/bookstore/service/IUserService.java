@@ -11,7 +11,7 @@ public interface IUserService {
 
     UserData getUserById(String token);
 
-    List<UserData> getBookList();
+    List<UserData> getUserList(String token);
 
     public String addUser(UserDTO userDTO);
 }
