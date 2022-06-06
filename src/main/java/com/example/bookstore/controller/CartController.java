@@ -16,8 +16,8 @@ public class CartController {
     public ICartService cartService;
 
     @PostMapping("/add")
-    ResponseEntity<ResponseDTO> addToCart(@RequestBody CartDTO cartDTO) {
-        ResponseDTO response = new ResponseDTO("Product Added To Cart ", cartService.addToCart(cartDTO));
+    ResponseEntity<ResponseDTO> addToCart(@RequestBody CartDTO cartDTO, @RequestParam String token) {
+        ResponseDTO response = new ResponseDTO("Product Added To Cart ", cartService.addToCart(cartDTO, token));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

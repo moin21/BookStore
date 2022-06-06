@@ -1,6 +1,7 @@
 package com.example.bookstore.entity;
 
 
+import com.example.bookstore.dto.OrderDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,11 +24,11 @@ public class OrderData {
     public int orderId;
 
     @ElementCollection
-    @CollectionTable(name = "books",joinColumns = @JoinColumn(name = "order_id"))
+    @CollectionTable(name = "books", joinColumns = @JoinColumn(name = "order_id"))
     public List<Integer> book;
 
     @ElementCollection
-    @CollectionTable(name = "book_quantities",joinColumns = @JoinColumn(name = "order_id"))
+    @CollectionTable(name = "book_quantities", joinColumns = @JoinColumn(name = "order_id"))
     public List<Integer> quantity;
 
     @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
@@ -48,6 +49,7 @@ public class OrderData {
         this.orderDate = getOrderDate();
         this.isActive = isActive();
     }
+
     public OrderData(UserData userData, List<Integer> book, List<Integer> quantity, String address, boolean isActive) {
         this.userData = userData;
         this.book = book;
@@ -55,5 +57,14 @@ public class OrderData {
         this.orderDate = getOrderDate();
         this.isActive = isActive;
     }
+
+    public OrderData(String address, Cart cart) {
+        this.userData = cart.getUserData();
+        this.book = cart.getBook();
+        this.address = address;
+        this.orderDate = getOrderDate();
+        this.isActive = isActive();
+    }
+
 }
 

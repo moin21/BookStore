@@ -3,10 +3,12 @@ package com.example.bookstore.service;
 import com.example.bookstore.dto.OrderDTO;
 import com.example.bookstore.email.EmailService;
 import com.example.bookstore.entity.Book;
+import com.example.bookstore.entity.Cart;
 import com.example.bookstore.entity.OrderData;
 import com.example.bookstore.entity.UserData;
 import com.example.bookstore.exception.CustomException;
 import com.example.bookstore.repository.BookRepository;
+import com.example.bookstore.repository.CartRepository;
 import com.example.bookstore.repository.OrderRepository;
 import com.example.bookstore.util.TokenUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class OrderService implements IOrderService {
     TokenUtility tokenUtility;
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    CartRepository cartRepository;
 
     public OrderData addOrder(String token, OrderDTO orderDTO) {
 
@@ -52,6 +56,7 @@ public class OrderService implements IOrderService {
         emailService.sendEmail(userData.getEmail(), "Order Created Successfully on ", "Order placed on" + orderDTO.getOrderDate() + " for books" + nameList + ". Total price is " + totalPrice);
         return orderRepository.save(order);
     }
+
 
     public OrderData getById(int id) {
         return orderRepository.findById(id).orElseThrow(() -> new CustomException("Order  with id " + id + " does not exist in database..!"));
