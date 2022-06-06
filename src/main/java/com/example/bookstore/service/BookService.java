@@ -29,7 +29,7 @@ public class BookService implements IBookService {
         Book book = new Book(bookDTO);
         UserData userData = iUserService.getUserById((token));
         if (userData.isAdmin()) {
-            emailService.sendEmail(userData.getEmail(), "Book Created successfully!!", "User " + userData.getFirstName() + " has added new book successfully " + book + ".");
+            emailService.sendEmail(userData.getEmail(), "Book Created successfully!!", "User " + userData.getFirstName() + " has added new book successfully " + book.getName() + ".");
             return bookRepository.save(book);
         } else throw new CustomException("Either the token you have provided is is invalid or you are not an admin user.");
     }
