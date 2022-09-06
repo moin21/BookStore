@@ -28,7 +28,7 @@ public class BookService implements IBookService {
     public Book addBook(String token, BookDTO bookDTO) {
         Book book = new Book(bookDTO);
         UserData userData = iUserService.getUserById((token));
-        if (userData.isAdmin()) {
+        if (userData.getIsAdmin()==0) {
             emailService.sendEmail(userData.getEmail(), "Book Created successfully!!", "User " + userData.getFirstName() + " has added new book successfully " + book.getName() + ".");
             return bookRepository.save(book);
         } else throw new CustomException("Either the token you have provided is is invalid or you are not an admin user.");
@@ -47,7 +47,7 @@ public class BookService implements IBookService {
 
     public String deleteById(int id, String token) {
         UserData userData = iUserService.getUserById((token));
-        if (bookRepository.findById(id).isPresent() && userData.isAdmin()) {
+        if (bookRepository.findById(id).isPresent() && userData.getIsAdmin() ==0) {
             bookRepository.deleteById(id);
             return "Book with ID: " + id + " is Deleted Successfully!!";
         } else throw new CustomException("No book matches with the given ID or you are not an admin user.");
@@ -55,7 +55,7 @@ public class BookService implements IBookService {
 
     public Book updateById(int id, BookDTO bookDTO, String token) {
         UserData userData = iUserService.getUserById((token));
-        if (bookRepository.findById(id).isPresent() && userData != null && userData.isAdmin()) {
+        if (bookRepository.findById(id).isPresent() && userData != null && userData.getIsAdmin() ==0) {
             Book book = new Book(id, bookDTO);
             emailService.sendEmail(userData.getEmail(), "Book Updated successfully!!", "User " + userData.getFirstName() + " has updated book successfully " + book + ".");
             return bookRepository.save(book);
@@ -104,7 +104,7 @@ public class BookService implements IBookService {
 
     public Book updateQuantityById(int id, int quantity, String token) throws CustomException {
         UserData userData = iUserService.getUserById((token));
-        if (bookRepository.findById(id).isPresent() && userData.isAdmin()) {
+        if (bookRepository.findById(id).isPresent() && userData.getIsAdmin() ==0) {
             Book book = this.getById(id);
             book.setQuantity(quantity);
             return bookRepository.save(book);

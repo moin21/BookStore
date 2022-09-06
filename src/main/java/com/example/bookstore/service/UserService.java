@@ -51,7 +51,7 @@ public class UserService implements IUserService {
 
     public List<UserData> getUserList(String token) {
         userRepository.findAll();
-        if (getUserById(token).isAdmin()) {
+        if (getUserById(token).getIsAdmin() == 0) {
             return userRepository.findAll();
 
         } else throw new CustomException("No Users in the list.");

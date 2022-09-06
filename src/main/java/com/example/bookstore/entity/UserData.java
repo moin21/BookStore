@@ -23,7 +23,7 @@ public class UserData {
     @Column(name = "login_id", nullable = false)
     private String loginID;
     private String password;
-    private boolean isAdmin = false;
+    private byte isAdmin;
 
 
     public UserData(int id, UserDTO userDTO) {
@@ -34,7 +34,7 @@ public class UserData {
         this.address = userDTO.getAddress();
         this.loginID = userDTO.getLoginID();
         this.password = userDTO.getPassword();
-        this.isAdmin = userDTO.isAdmin();
+        this.isAdmin = userDTO.getIsAdmin();
     }
 
     public UserData(UserData userData) {
@@ -45,7 +45,7 @@ public class UserData {
         this.address = userData.getAddress();
         this.loginID = userData.getLoginID();
         this.password = userData.getPassword();
-        this.isAdmin = userData.isAdmin();
+        this.isAdmin = userData.getIsAdmin();
     }
 
     public UserData(UserDTO userDTO) {
@@ -55,7 +55,7 @@ public class UserData {
         this.address = userDTO.getAddress();
         this.loginID = userDTO.getLoginID();
         this.password = userDTO.getPassword();
-        this.isAdmin = userDTO.isAdmin();
+        this.isAdmin = userDTO.getIsAdmin();
     }
 
     public UserData(LoginDTO loginDTO) {
